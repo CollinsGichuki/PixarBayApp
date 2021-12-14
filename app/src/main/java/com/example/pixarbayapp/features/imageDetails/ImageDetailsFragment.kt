@@ -1,4 +1,4 @@
-package com.example.pixarbayapp
+package com.example.pixarbayapp.features.imageDetails
 
 import android.os.Bundle
 import android.view.LayoutInflater

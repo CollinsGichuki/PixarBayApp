@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Dev_Stuff/Android-Projects/PixarBayApp/app/src/main/res/drawable/rounded_corner_background.xml" value="0.3536458333333333" />
         <entry key="..\:/Dev_Stuff/Android-Projects/PixarBayApp/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
         <entry key="..\:/Dev_Stuff/Android-Projects/PixarBayApp/app/src/main/res/layout/fragment_home.xml" value="0.3333333333333333" />
         <entry key="..\:/Dev_Stuff/Android-Projects/PixarBayApp/app/src/main/res/layout/fragment_image_details.xml" value="0.3333333333333333" />

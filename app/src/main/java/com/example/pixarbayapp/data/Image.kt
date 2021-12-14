@@ -1,11 +1,12 @@
 package com.example.pixarbayapp.data
 
 data class Image(
+    val id: Int,
     val largeImageURL: String,
-    val views: String,
-    val downloads: String,
-    val collections: String,
-    val likes: String,
-    val comments: String,
+    val views: Int,
+    val downloads: Int,
+    val collections: Int,
+    val likes: Int,
+    val comments: Int,
     val user: String,
 )
