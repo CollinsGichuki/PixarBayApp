@@ -29,6 +29,7 @@ class ImagesAdapter : ListAdapter<Image, ImagesAdapter.ImagesViewHolder>(ImageCo
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImagesViewHolder {
+        //Create the View
         val binding =
             ImageRecyclerViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ImagesViewHolder(binding)
@@ -39,19 +40,33 @@ class ImagesAdapter : ListAdapter<Image, ImagesAdapter.ImagesViewHolder>(ImageCo
         //If the current item isn't null, bind the data to the view
         if (currentItem != null) {
             holder.binding(currentItem)
+
+            holder.itemView.setOnClickListener {
+                onItemClickListener?.let {
+                    it(currentItem)
+                }
+            }
         }
+    }
+
+    //Interface for the onClickListener
+    private var onItemClickListener: ((Image) -> Unit)? = null
+
+    //Method to be used in the fragment for the listener implementation
+    fun setOnItemClickListener(listener: (Image) -> Unit) {
+        this.onItemClickListener = listener
     }
 
     //DiffUtil calculates the differences between two Images
     class ImageComparator : DiffUtil.ItemCallback<Image>() {
         //Check if two Images are the same
         override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.id == newItem.id //Id is unique for each image
         }
 
         //Check if the two items have the same data
         override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean {
-            return oldItem.largeImageURL == newItem.largeImageURL
+            return oldItem.largeImageURL == newItem.largeImageURL //ImageURL should be different for each Image
         }
     }
 }

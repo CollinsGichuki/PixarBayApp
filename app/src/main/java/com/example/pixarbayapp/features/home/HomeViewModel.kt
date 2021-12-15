@@ -3,16 +3,15 @@ package com.example.pixarbayapp.features.home
 import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import com.example.pixarbayapp.data.ImageResult
+import com.example.pixarbayapp.data.ImagesRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.launch
 
-//The viewModel has special treatment when annotated with @HiltViewModel
-//@HiltViewModel
+//Hilt doesn't support AssistedInjection for viewModels
+//We have to create a factory for the viewModel so as to create a viewModel with the dependencies we want
 class HomeViewModel @AssistedInject constructor(
-    repository: HomeRepository,
+    repository: ImagesRepository,
     @Assisted private val defaultQuery: String,
     @Assisted private val state: SavedStateHandle // Saves data and retrieves them in process death scenarios
 ) : ViewModel() {
@@ -27,24 +26,25 @@ class HomeViewModel @AssistedInject constructor(
     // Or if none(first time launching the app), load the default query
     private val currentQuery = state.getLiveData(CURRENT_QUERY, defaultQuery)
 
-    private val _imagesResult = MutableLiveData<ImageResult>()
-
-    //Expose LiveData to the fragment
-    val imagesResult: LiveData<ImageResult> = _imagesResult
-
-    init {
-        viewModelScope.launch {
-            //Get the default query from the currentQuery as a String
-            val images = currentQuery.value?.let { repository.getSearchResults(it) }
-
-            //Update the live data with the result from the network call
-            _imagesResult.value = images!!
-        }
+    //Called from the fragment
+    fun searchImages(query: String) {
+        //Equate value entered in the fragment with the value to be searched
+        currentQuery.value = query
     }
 
+    //Collect from the flow and cast the data to livedata
+    //SwitchMap updates the currentQuery value to use the latest value
+    //Livedata makes using the flow in the UI layer very easy
+    //val imagesResult = currentQuery.value?.let { repository.getImages(it) }?.asLiveData()
+    val imagesResult = currentQuery.switchMap { queryString ->
+        repository.getImages(queryString).asLiveData()
+    }
+
+    //We use companion object to tie these values to the ViewModel class and not its instances
     companion object {
         private const val CURRENT_QUERY = "current_query"
 
+        //Provides our factory for the HomeViewModel
         fun provideFactory(
             assistedFactory: HomeViewModelFactory,
             owner: SavedStateRegistryOwner,

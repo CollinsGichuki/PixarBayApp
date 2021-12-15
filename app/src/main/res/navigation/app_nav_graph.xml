@@ -22,5 +22,10 @@
         android:id="@+id/imageDetailsFragment"
         android:name="com.example.pixarbayapp.features.imageDetails.ImageDetailsFragment"
         android:label="fragment_image_details"
-        tools:layout="@layout/fragment_image_details" />
+        tools:layout="@layout/fragment_image_details" >
+        <argument
+            android:name="selectedImage"
+            app:argType="com.example.pixarbayapp.data.Image" />
+    </fragment>
+
 </navigation>
