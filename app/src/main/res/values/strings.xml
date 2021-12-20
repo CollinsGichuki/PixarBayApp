@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">PixarBayApp</string>
+    <string name="image_view">Image View</string>
+    <string name="search">Search</string>
+    <string name="selected_image">selected image</string>
+    <string name="owner">Owner:</string>
+    <string name="downloads">Downloads:</string>
+    <string name="views">Views:</string>
+    <string name="collections">Collections:</string>
+    <string name="likes">Likes:</string>
+    <string name="comments">Comments:</string>
 </resources>
